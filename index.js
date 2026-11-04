@@ -218,6 +218,11 @@ export function apply(ctx, config) {
         logger.warn?.('qqbot-voice: tools 服务不可用，qqbot_send_voice 未注册');
         return;
     }
+    // 装完还没配凭据时给出明确指引（不阻断加载）
+    if (!config?.apiKey && !process.env.QQBOT_TTS_API_KEY) {
+        logger.warn?.('qqbot-voice: 尚未配置 apiKey —— 在 profile 的 cordis.patch.yml 里给 qqbot-voice 加 '
+            + '`apiKey: sk-xxx`（或设置环境变量 QQBOT_TTS_API_KEY），否则调用会失败');
+    }
     const definition = {
         name: TOOL_NAME,
         description: DESCRIPTION,

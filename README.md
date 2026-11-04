@@ -1,8 +1,22 @@
 # dsh-qqbot-voice
 
+[![ci](https://github.com/xiaofenggan01/dsh-qqbot-voice/actions/workflows/ci.yml/badge.svg)](https://github.com/xiaofenggan01/dsh-qqbot-voice/actions/workflows/ci.yml)
+
 给你的 QQ 机器人加一个「说话」工具：把一段文字用 **VoxCPM**（面壁 ModelBest）合成语音，并作为 **QQ 语音消息**发出去。
 
 > A voice-reply tool for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) QQ bots. Text in, QQ voice message out, via VoxCPM TTS.
+
+## 安装
+
+把仓库地址粘进 DSH 桌面版的「插件 → 添加插件」，或者在命令行里：
+
+```bash
+dsh plugin --profile desktop add https://github.com/xiaofenggan01/dsh-qqbot-voice
+```
+
+`https://…`、`github:xiaofenggan01/dsh-qqbot-voice`、本地路径三种写法都可以——DSH 的 `plugin add` 直接转发给 pnpm，包内只有 JS，**没有构建步骤**，装完即用。
+
+装完补两行配置就能说话（见下方[配置](#配置)）。
 
 ## 为什么是插件，而不是改 qqbot
 
@@ -37,15 +51,7 @@
 | VoxCPM API Key | 面壁开放平台（`platform.modelbest.cn`）申请 |
 | ffmpeg | 可选，只有用 `pitchFactor` 变声时需要 |
 
-## 安装
-
-```bash
-# 从 GitHub 装
-dsh plugin --profile desktop add github:xiaofenggan01/dsh-qqbot-voice
-
-# 或从本地路径装
-dsh plugin --profile desktop add /path/to/dsh-qqbot-voice
-```
+## 配置
 
 装完在 profile 的 `cordis.patch.yml` 里补配置（参考 [`example.patch.yml`](./example.patch.yml)）：
 
@@ -55,6 +61,8 @@ dsh plugin --profile desktop add /path/to/dsh-qqbot-voice
     apiKey: sk-xxxxxxxx
     voice: voice_xxxxxxxxxxxxxxxx
 ```
+
+`apiKey` 也可以走环境变量 `QQBOT_TTS_API_KEY`，配置文件里就不用放明文。
 
 改配置即时生效，不用重启。
 
@@ -129,9 +137,24 @@ qqbot 的 `sendFile.restrictPaths` 默认开启，白名单是 `~/.dsh-qqbot/med
 **语音文件越积越多**
 qqbot 的媒体清理（默认 24 小时）会回收 `~/.dsh-qqbot/media` 下的文件。
 
+## 验证安装
+
+```bash
+# 1. 插件是否装进 profile、能否解析
+node -e "import('dsh-qqbot-voice').then(m => console.log(Object.keys(m)))"
+
+# 2. 不联网的冒烟测试（契约 / 参数校验 / 凭据缺失提示）
+npm test
+```
+
+CI 会在每次 push 时跑 `npm test` + `npm pack --dry-run`，保证「粘地址能装、装完能加载」这两件事不被改坏。
+
 ## 开发
 
 ```bash
+npm install    # 只装 @deepseek-ai/schemastery 用于本地测试
+npm test
+
 # 改了源码之后同步到 profile（pnpm 用的是硬链接）
 cp -f index.js ~/.dsh/profiles/<profile>/node_modules/dsh-qqbot-voice/index.js
 # 再碰一下 profile 的 cordis.patch.yml 触发热重载
