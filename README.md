@@ -41,7 +41,7 @@
 
 ```bash
 # 从 GitHub 装
-dsh plugin --profile desktop add github:<your-name>/dsh-qqbot-voice
+dsh plugin --profile desktop add github:xiaofenggan01/dsh-qqbot-voice
 
 # 或从本地路径装
 dsh plugin --profile desktop add /path/to/dsh-qqbot-voice
