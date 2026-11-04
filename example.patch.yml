@@ -1,0 +1,13 @@
+# 把这段合并进 profile 的 cordis.patch.yml（~/.dsh/profiles/<profile>/cordis.patch.yml）
+# apiKey 也可以改走环境变量 QQBOT_TTS_API_KEY，这里留空即可。
+- id: qqbot-voice
+  config:
+    baseUrl: https://api.modelbest.cn
+    apiKey: ''
+    model: VoxCPM2
+    # 音色 id 在面壁控制台「音色库」里创建后复制过来；不填则用 default
+    voice: voice_xxxxxxxxxxxxxxxx
+    maxChars: 300
+    # 变声倍数：1 = 不变；需要一个参考音色时再调
+    pitchFactor: 1
+    present: true

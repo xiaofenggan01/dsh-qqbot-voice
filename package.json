@@ -1,0 +1,48 @@
+{
+  "name": "dsh-qqbot-voice",
+  "version": "0.1.0",
+  "description": "给 DSH 的 QQ 机器人加一个「说话」工具：VoxCPM 语音合成 + 交付为 QQ 语音消息",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "example.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "author": "xiaofenggan01",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaofenggan01/dsh-qqbot-voice.git"
+  },
+  "homepage": "https://github.com/xiaofenggan01/dsh-qqbot-voice#readme",
+  "bugs": {
+    "url": "https://github.com/xiaofenggan01/dsh-qqbot-voice/issues"
+  },
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "qqbot",
+    "tts",
+    "voice",
+    "voxcpm"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.1",
+    "@deepseek-ai/schemastery": ">=3.18.1"
+  }
+}

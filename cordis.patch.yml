@@ -1,0 +1,17 @@
+# dsh-qqbot-voice bundle patch
+#
+# 安装：dsh plugin --profile <name> add /path/to/dsh-qqbot-voice
+# 凭据：apiKey 通过环境变量 QQBOT_TTS_API_KEY，或在 profile 的 cordis.patch.yml
+#      里用同 id 覆盖（见 README）。
+
+- insert:
+    - id: qqbot-voice
+      name: 'dsh-qqbot-voice'
+      config:
+        baseUrl: https://api.modelbest.cn
+        model: VoxCPM2
+        voice: default
+        maxChars: 300
+        pitchFactor: 1
+        present: true
+        debug: false
