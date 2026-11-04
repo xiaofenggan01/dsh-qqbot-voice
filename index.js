@@ -108,6 +108,14 @@ async function synthesize(text, cfg) {
     });
     if (!res.ok) {
         const detail = await res.text().catch(() => '');
+        // 把平台的结构化错误翻成能直接行动的提示
+        if (detail.includes('voice_not_found')) {
+            throw new Error(`音色不存在（voice=${cfg.voice}）：可能已被删除、过期，或不属于当前 API Key。`
+                + '去控制台「音色库」确认，或改用 voice: default + refAudioPath');
+        }
+        if (res.status === 401 || res.status === 403 || detail.includes('invalid_api_key')) {
+            throw new Error(`TTS 鉴权失败（HTTP ${res.status}）：检查 apiKey 是否有效`);
+        }
         throw new Error(`TTS HTTP ${res.status}${detail ? `: ${detail.slice(0, 200)}` : ''}`);
     }
     const contentType = (res.headers.get('content-type') ?? '').toLowerCase();
